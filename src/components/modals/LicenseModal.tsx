@@ -5,8 +5,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { Shield, Download } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Shield } from 'lucide-react';
 
 interface License {
   title: string;

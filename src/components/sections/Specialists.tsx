@@ -1,16 +1,18 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import SpecialistModal from '../modals/SpecialistModal';
+import { Specialist } from '@/types';
 
 import { SPECIALISTS } from '@/lib/constants/specialists';
 
 const Specialists = () => {
-  const [selectedSpecialist, setSelectedSpecialist] = useState<any>(null);
+  const [selectedSpecialist, setSelectedSpecialist] =
+    useState<Specialist>(null);
   const [isSpecialistModalOpen, setIsSpecialistModalOpen] = useState(false);
 
-  const handleSpecialistClick = (specialist: any) => {
+  const handleSpecialistClick = (specialist: Specialist) => {
     setSelectedSpecialist(specialist);
     setIsSpecialistModalOpen(true);
   };

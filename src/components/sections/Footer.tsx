@@ -104,11 +104,6 @@ const Footer = () => {
                     <Phone className='w-4 h-4 text-green-600' />
                   </a>
                 </Button>
-                {/* <Button asChild variant='outline' size='sm' className='p-2'>
-                <a href={VIBER_URL} target='_blank' rel='noopener noreferrer'>
-                  <MessageCircle className='w-4 h-4 text-purple-600' />
-                </a>
-              </Button> */}
               </div>
             </div>
           </div>

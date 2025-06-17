@@ -4,6 +4,7 @@ import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
 
 import { TELEGRAM_BOT_TOKEN, CHAT_ID } from './constants/telegram_bot';
+import { WEEKDAY_SLOTS, SATURDAY_SLOTS } from './constants/contacts';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -46,4 +47,24 @@ export const sendToTelegram = async (message: string) => {
   } catch (error) {
     console.error('Ошибка отправки в Telegram:', error);
   }
+};
+
+export const isWeekend = (date: Date) => {
+  return date.getDay() === 0;
+};
+
+export const isSaturday = (date: Date) => {
+  return date.getDay() === 6;
+};
+
+export const getAvailableTimeSlots = (date: Date) => {
+  if (isWeekend(date)) {
+    return [];
+  }
+
+  if (isSaturday(date)) {
+    return SATURDAY_SLOTS;
+  }
+
+  return WEEKDAY_SLOTS;
 };

@@ -1,7 +1,6 @@
 import React from 'react';
-import { Award, Users, Clock, Heart } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
-import { STATS } from '@/lib/constants/stats';
+import { STwATS } from '@/lib/constants/stats';
 
 const About = () => {
   return (

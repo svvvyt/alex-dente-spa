@@ -34,7 +34,13 @@ import {
   CheckCircle,
 } from 'lucide-react';
 
-import { cn, formatAppointmentMessage, sendToTelegram } from '@/lib/utils';
+import {
+  cn,
+  formatAppointmentMessage,
+  sendToTelegram,
+  isWeekend,
+  getAvailableTimeSlots,
+} from '@/lib/utils';
 import {
   AppointmentFormData,
   appointmentSchema,
@@ -50,6 +56,7 @@ interface AppointmentModalProps {
 const AppointmentModal = ({ isOpen, onClose }: AppointmentModalProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
 
   const {
     control,
@@ -67,21 +74,8 @@ const AppointmentModal = ({ isOpen, onClose }: AppointmentModalProps) => {
     },
   });
 
-  const timeSlots = [
-    '08:00',
-    '09:00',
-    '10:00',
-    '11:00',
-    '12:00',
-    '13:00',
-    '14:00',
-    '15:00',
-    '16:00',
-    '17:00',
-    '18:00',
-    '19:00',
-    '20:00',
-  ];
+  const selectedDate = watch('date');
+  const availableTimeSlots = getAvailableTimeSlots(selectedDate);
 
   const onSubmit = async (formData: AppointmentFormData) => {
     setIsSubmitting(true);
@@ -172,7 +166,10 @@ const AppointmentModal = ({ isOpen, onClose }: AppointmentModalProps) => {
                   name='date'
                   control={control}
                   render={({ field }) => (
-                    <Popover>
+                    <Popover
+                      open={isCalendarOpen}
+                      onOpenChange={setIsCalendarOpen}
+                    >
                       <PopoverTrigger asChild>
                         <Button
                           variant='outline'
@@ -194,9 +191,13 @@ const AppointmentModal = ({ isOpen, onClose }: AppointmentModalProps) => {
                         <Calendar
                           mode='single'
                           selected={field.value}
-                          onSelect={field.onChange}
+                          onSelect={(date) => {
+                            field.onChange(date);
+                            setIsCalendarOpen(false);
+                          }}
                           disabled={(date) =>
-                            date < new Date(new Date().setHours(0, 0, 0, 0))
+                            date < new Date(new Date().setHours(0, 0, 0, 0)) ||
+                            isWeekend(date)
                           }
                           initialFocus
                         />
@@ -218,21 +219,45 @@ const AppointmentModal = ({ isOpen, onClose }: AppointmentModalProps) => {
                     <Select
                       value={field.value}
                       onValueChange={field.onChange}
-                      disabled={!watch('date') || isSubmitting}
+                      disabled={
+                        !watch('date') ||
+                        isSubmitting ||
+                        isWeekend(selectedDate)
+                      }
                     >
-                      <SelectTrigger>
-                        <SelectValue placeholder='Выберите время' />
+                      <SelectTrigger className='h-9'>
+                        {' '}
+                        {/* Уменьшаем высоту триггера */}
+                        <SelectValue
+                          placeholder={
+                            isWeekend(selectedDate)
+                              ? 'Выходной день'
+                              : 'Выберите время'
+                          }
+                        />
                       </SelectTrigger>
-                      <SelectContent>
+                      <SelectContent className='max-h-60'>
+                        {' '}
+                        {/* Ограничиваем максимальную высоту */}
                         <SelectGroup>
-                          {timeSlots.map((time) => (
-                            <SelectItem key={time} value={time}>
-                              <div className='flex items-center'>
-                                <Clock className='mr-2 h-4 w-4' />
+                          {availableTimeSlots.map((time) => (
+                            <SelectItem
+                              key={time}
+                              value={time}
+                              className='h-8 text-sm' // Уменьшаем высоту и размер шрифта
+                            >
+                              <div className='flex items-center space-x-2'>
+                                <Clock className='h-3 w-3' />{' '}
+                                {/* Уменьшаем размер иконки */}
                                 <span>{time}</span>
                               </div>
                             </SelectItem>
                           ))}
+                          {availableTimeSlots.length === 0 && (
+                            <SelectLabel className='text-sm py-1'>
+                              Клиника не работает в этот день
+                            </SelectLabel>
+                          )}
                         </SelectGroup>
                       </SelectContent>
                     </Select>
@@ -263,7 +288,7 @@ const AppointmentModal = ({ isOpen, onClose }: AppointmentModalProps) => {
               <Button
                 type='submit'
                 className='flex-1 bg-blue-600 hover:bg-blue-700 text-white'
-                disabled={isSubmitting}
+                disabled={isSubmitting || isWeekend(selectedDate)}
               >
                 {isSubmitting ? (
                   <>
