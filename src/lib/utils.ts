@@ -6,6 +6,17 @@ import { ru } from 'date-fns/locale';
 import { TELEGRAM_BOT_TOKEN, CHAT_ID } from './constants/telegram_bot';
 import { WEEKDAY_SLOTS, SATURDAY_SLOTS } from './constants/contacts';
 
+export const handleScrollTo = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+  e.preventDefault();
+  const element = document.getElementById(id);
+  if (element) {
+    element.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start',
+    });
+  }
+};
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }

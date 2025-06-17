@@ -1,3 +1,5 @@
+import { IMapObject } from '@/types/index';
+
 // address
 export const POSTAL_CODE = 413121;
 export const ADDRESS =
@@ -44,3 +46,11 @@ export const MAILTO_URL = `mailto:${EMAIL}`;
 
 // messengers
 export const WHATSAPP_URL = `https://wa.me/${CONTACT_PHONE}`;
+
+// map object
+export const MAP_OBJECT: IMapObject = {
+  iframeSrc:
+    'https://yandex.ru/map-widget/v1/?ll=46.143132%2C51.477519&mode=search&oid=36952174955&ol=biz&z=16.64',
+  width: '900px',
+  height: '625px',
+};

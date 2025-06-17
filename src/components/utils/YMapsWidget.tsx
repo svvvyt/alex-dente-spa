@@ -1,25 +1,28 @@
 import React from 'react';
 
-import { IMapObject } from '@/types/index';
+interface YMapsWidgetProps {
+  iframeSrc: string;
+  width?: string;
+  height?: string;
+  className?: string;
+}
 
-export const YMapsWidget: React.FC<IMapObject> = ({
+export const YMapsWidget: React.FC<YMapsWidgetProps> = ({
   iframeSrc,
-  width = '500px',
+  width = '100%',
   height = '500px',
+  className = '',
 }) => {
   return (
-    <div
-      className='map-iframe-container'
-      style={{ position: 'relative', overflow: 'hidden' }}
-    >
+    <div className={`w-full ${className}`}>
       <iframe
         src={iframeSrc}
         width={width}
         height={height}
-        frameBorder='1'
-        allowFullScreen={true}
-        style={{ position: 'relative' }}
-      ></iframe>
+        frameBorder='0'
+        allowFullScreen
+        className='rounded-lg'
+      />
     </div>
   );
 };

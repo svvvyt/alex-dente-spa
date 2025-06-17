@@ -1,6 +1,6 @@
-import React from 'react';
 import { Phone, PhoneCall, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { handleScrollTo } from '@/lib/utils';
 import {
   TEL_URL,
   FORMATTED_PHONE,
@@ -31,36 +31,42 @@ const Header = () => {
           <nav className='hidden lg:flex items-center space-x-8'>
             <a
               href='#about'
+              onClick={(e) => handleScrollTo(e, 'about')}
               className='text-foreground hover:text-primary transition-colors'
             >
               О нас
             </a>
             <a
               href='#advantages'
+              onClick={(e) => handleScrollTo(e, 'advantages')}
               className='text-foreground hover:text-primary transition-colors'
             >
               Преимущества
             </a>
             <a
               href='#services'
+              onClick={(e) => handleScrollTo(e, 'services')}
               className='text-foreground hover:text-primary transition-colors'
             >
               Услуги
             </a>
             <a
               href='#specialists'
+              onClick={(e) => handleScrollTo(e, 'specialists')}
               className='text-foreground hover:text-primary transition-colors'
             >
               Специалисты
             </a>
             <a
               href='#reviews'
+              onClick={(e) => handleScrollTo(e, 'reviews')}
               className='text-foreground hover:text-primary transition-colors'
             >
               Отзывы
             </a>
             <a
               href='#contact'
+              onClick={(e) => handleScrollTo(e, 'contact')}
               className='text-foreground hover:text-primary transition-colors'
             >
               Контакты

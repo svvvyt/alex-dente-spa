@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-import { STwATS } from '@/lib/constants/stats';
+import { STATS } from '@/lib/constants/stats';
 
 const About = () => {
   return (
